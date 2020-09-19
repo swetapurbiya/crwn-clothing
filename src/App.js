@@ -16,6 +16,7 @@ import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
+//import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -36,6 +37,8 @@ class App extends React.Component {
       }
 
       setCurrentUser(userAuth);
+      //addCOllectionAndDocuments('collections', collectionArray.map(({title, items}) => ({ title, items }))); 
+      // code was to add data in database
     });
   }
 
@@ -69,7 +72,8 @@ class App extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
+  //collectionArray: selectCollectionsForPreview
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -41,6 +41,41 @@ const config = {
 
   firebase.initializeApp(config);
 
+  // code was to add data in database not used any more
+  export const addCOllectionAndDocuments = async (collectionKey, objectToAdd) => {
+    const collectionRef = firestore.collection(collectionKey);
+    //console.log(collectionRef);
+
+    const batch = firestore.batch();
+    objectToAdd.forEach(obj => {
+      const newDocRef = collectionRef.doc();
+      //console.log(newDocRef);
+      batch.set(newDocRef, obj);
+    });
+
+    return await batch.commit();
+  };
+
+  //code to fetch data from firebase database
+
+  export const convertCollectionsSnapshotToMap = (collections) => {
+    const transformedCollection = collections.docs.map(doc => {
+      const { title, items } = doc.data();
+  
+      return {
+        routeName: encodeURI(title.toLowerCase()),
+        id: doc.id,
+        title,
+        items
+      };
+    });
+  
+    return transformedCollection.reduce((accumulator, collection) => {
+      accumulator[collection.title.toLowerCase()] = collection;
+      return accumulator;
+    }, {});
+  };
+
   export const auth = firebase.auth();
   export const firestore = firebase.firestore();
 
